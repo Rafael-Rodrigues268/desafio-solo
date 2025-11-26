@@ -28,6 +28,13 @@ class Task_Canil(models.Model):
     descricao = models.TextField("Descrição-afazeres", null=True, blank=True)
     concluida = models.BooleanField("Concluido",default=False)
 
+    area = models.CharField(
+        "Área",
+        max_length=2,
+        choices=Area.choices,
+        default=Area.Interno
+    )
+
     prioridade= models.CharField(
         "Prioridades",
         max_length=1,
@@ -42,5 +49,5 @@ class Task_Canil(models.Model):
     class Meta:
         ordering = ("concluida","data_limite", "-prioridade", "-mandado_em")
 
-        def __str__(self) -> str:
-            return self.titulo
+    def __str__(self) -> str:
+        return self.titulo
