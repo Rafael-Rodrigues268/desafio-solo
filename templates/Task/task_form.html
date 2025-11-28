@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form method="POST" action="">
+    {% csrf_token %}
+    
+    <p>
+        <label for="id_titulo">Título:</label><br>
+        <input type="text"
+               id="id_titulo"
+               name="titulo"
+               maxlength="200"
+               value="{% if task %}{{ task.titulo }}{% endif %}">
+    </p>
+    
+    <p>
+        <label for="id_descricao">Descrição:</label><br>
+        <textarea id="id_descricao" name="descricao" rows="4">{% if task %}{{ task.descricao }}{% endif %}</textarea>
+    </p>
+    
+    <p>
+        <label for="id_prioridade">Prioridade:</label><br>
+        <select name="prioridade" id="id_prioridade">
+            {% for value, label in opcoes_prioridade %}
+                {% if task and task.prioridade == value %}
+                    <option value="{{ value }}" selected>{{ label }}</option>
+                {% else %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </p>
+    
+    <p>
+        <label for="id_data_limite">Data Limite:</label><br>
+        <input type="date"
+               id="id_data_limite"
+               name="data_limite"
+               required
+               value="{% if task and task.data_limite %}{{ task.data_limite|date:'Y-m-d' }}{% endif %}">
+    </p>
+    
+    <p>
+        <label for="id_concluida">
+            <input type="checkbox"
+                   id="id_concluida"
+                   name="concluida"
+                   {% if task and task.concluida %} checked {% endif %}>
+            Concluída
+        </label>
+    </p>
+    
+    <p>
+        <label for="id_area">Área:</label><br>
+        <select name="area" id="id_area">
+            {% for value, label in opcoes_area %}
+                {% if task and task.area == value %}
+                    <option value="{{ value }}" selected>{{ label }}</option>
+                {% else %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </p>
+    
+    <button type="submit">Salvar</button>
+</form>
+
+{% endblock %}
